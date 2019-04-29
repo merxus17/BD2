@@ -140,12 +140,54 @@ CREATE TABLE PRECO_MIN
 );
 ALTER TABLE FUNCIONARIO
 	Add CONSTRAINT fk_departamento FOREIGN KEY (CodigoDepartamento) REFERENCES departamento(codigoDepartamento);
+ALTER TABLE NotasVenda
+	ADD Column CPF_Funcionario INTEGER,
+	ADD CONSTRAINT fk_cpf  FOREIGN KEY (CPF_Funcionario) REFERENCES Funcionario(CPF);
 ALTER TABLE FUNCIONARIO
 	Rename TO FUNCIONARIO_NEW;
 ALTER TABLE Mercadorias
 	ADD COLUMN Estoque_Max INTEGER;
+ALTER TABLE Mercadorias
+	RENAME TO MERCADORIAS_NEW;
 CREATE VIEW FUNCIONARIO AS 
 SELECT CPF,Nome,Telefone,Logradouro,Numero,Complemento,Cidade,Estado,CodigoDepartamento
 FROM FUNCIONARIO_NEW;
+CREATE VIEW MERCADORIAS AS 
+SELECT NumeroMercadoria, Descricao, QuantidadeEstoque
+FROM MERCADORIAS_NEW;
+CREATE FUNCTION estoque_max()
+Returns trigger AS
+$BODY$
+BEGIN 
+IF NEW.QuantidadeEstoque > Old.Estoque_Max THEN 
+RAISE EXCEPTION 'Acima do estoque maximo';
+END IF;
+RETURN NEW;
+END;
+$BODY$
+LANGUAGE plpgsql;
 
+CREATE TRIGGER impede_over_estoque
+BEFORE INSERT OR UPDATE
+ON Mercadorias_NEW
+FOR EACH ROW
+EXECUTE PROCEDURE estoque_max();
+
+CREATE FUNCTION estoque_zero()
+Returns trigger AS
+$BODY$
+BEGIN 
+IF OLD.QuantidadeEstoque < 1 THEN 
+RAISE EXCEPTION 'SEM ESTOQUE';
+END IF;
+RETURN NEW;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER impede_venda_por_estoque_zero
+BEFORE INSERT OR UPDATE
+ON Mercadorias_NEW
+FOR EACH ROW
+EXECUTE PROCEDURE estoque_zero();
 
