@@ -1,13 +1,13 @@
 CREATE TABLE Cliente
 (
     Codigo INTEGER,
-    Nome CHAR2(150),
+    Nome CHAR(150),
     Telefone INTEGER,
-    Logradouro CHAR2(150),
+    Logradouro CHAR(150),
     Numero INTEGER,
-    Complemento CHAR2(25),
-    Cidade CHAR2(80),
-    Estado CHAR2(60),
+    Complemento CHAR(25),
+    Cidade CHAR(80),
+    Estado CHAR(60),
     NumeroContribuinte INTEGER
 )
 CREATE TABLE NotasVenda 
@@ -31,8 +31,8 @@ CREATE TABLE ItensNota
     Numero INTEGER,
     NumeroMercadoria INTEGER,
     Quantidade INTEGER,
-    ValorUnitario INTEGER
-    PRIMARY KEY (Numero,NumeroMercadoria)
+    ValorUnitario INTEGER,
+    PRIMARY KEY (Numero,NumeroMercadoria),
     FOREIGN KEY (NumeroMercadoria) REFERENCES Mercadorias(NumeroMercadoria)
 )
 CREATE TABLE Funcionario
