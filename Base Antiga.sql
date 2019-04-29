@@ -140,6 +140,12 @@ CREATE TABLE PRECO_MIN
 );
 ALTER TABLE FUNCIONARIO
 	Add CONSTRAINT fk_departamento FOREIGN KEY (CodigoDepartamento) REFERENCES departamento(codigoDepartamento);
+ALTER TABLE FUNCIONARIO
+	Rename TO FUNCIONARIO_NEW;
 ALTER TABLE Mercadorias
 	ADD COLUMN Estoque_Max INTEGER;
+CREATE VIEW FUNCIONARIO AS 
+SELECT CPF,Nome,Telefone,Logradouro,Numero,Complemento,Cidade,Estado,CodigoDepartamento
+FROM FUNCIONARIO_NEW;
+
 
