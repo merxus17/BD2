@@ -1,3 +1,7 @@
+DROP SCHEMA IF EXISTS exemplo CASCADE;
+CREATE SCHEMA exemplo;
+SET SCHEMA 'exemplo';
+
 CREATE TABLE Cliente
 (
     Codigo INTEGER,
@@ -8,8 +12,9 @@ CREATE TABLE Cliente
     Complemento CHAR(25),
     Cidade CHAR(80),
     Estado CHAR(60),
-    NumeroContribuinte INTEGER
-)
+    NumeroContribuinte INTEGER,
+    PRIMARY KEY(Codigo)
+);
 CREATE TABLE NotasVenda 
 (
     Numero INTEGER,
@@ -19,13 +24,14 @@ CREATE TABLE NotasVenda
     CPFVendedor INTEGER,
     PRIMARY KEY (Numero),
     FOREIGN KEY (CodigoCliente) REFERENCES Cliente(Codigo) 
-)
+);
 CREATE TABLE Mercadorias
 (
     NumeroMercadoria INTEGER,
     Descricao CHAR(250),
-    QuantidadeEstoque INTEGER
-)
+    QuantidadeEstoque INTEGER,
+    PRIMARY KEY(NumeroMercadoria)
+);
 CREATE TABLE ItensNota
 (
     Numero INTEGER,
@@ -34,7 +40,7 @@ CREATE TABLE ItensNota
     ValorUnitario INTEGER,
     PRIMARY KEY (Numero,NumeroMercadoria),
     FOREIGN KEY (NumeroMercadoria) REFERENCES Mercadorias(NumeroMercadoria)
-)
+);
 CREATE TABLE Funcionario
 (
     CPF INTEGER,
@@ -47,20 +53,21 @@ CREATE TABLE Funcionario
     Estado CHAR(60),
     CodigoDepartamento INTEGER,
     PRIMARY KEY (CPF)
-)
+);
 CREATE TABLE Cargo
 (
     Codigo INTEGER,
     Descricao CHAR(250),
-    Salario_Base INTEGER
-)
+    Salario_Base INTEGER,
+    PRIMARY KEY(Codigo)
+);
 CREATE TABLE Departamento
 (
     CodigoDepartamento INTEGER,
     Nome CHAR(150),
     CPF_CHEFE INTEGER,
     PRIMARY KEY (CodigoDepartamento)
-)
+);
 CREATE TABLE CargosFunc
 (
     CPF INTEGER,
@@ -71,3 +78,7 @@ CREATE TABLE CargosFunc
     FOREIGN KEY (CPF) REFERENCES Funcionario(CPF),
     FOREIGN KEY (CodigoCargo) REFERENCES Cargo(Codigo)
 );
+
+
+
+
