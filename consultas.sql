@@ -81,21 +81,3 @@ SELECT * FROM Notas_E_Compras WHERE NUMERO=N;
 END; $$
 
 LANGUAGE 'plpgsql';
-
-
---  RETURNS TABLE (
---  film_title VARCHAR,
---  film_release_year INT
--- ) 
--- AS $$
--- BEGIN
---  RETURN QUERY SELECT
---  title,
---  cast( release_year as integer)
---  FROM
---  film
---  WHERE
---  title ILIKE p_pattern ;
--- END; $$ 
- 
--- LANGUAGE 'plpgsql';
